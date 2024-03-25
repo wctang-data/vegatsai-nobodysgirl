@@ -1,0 +1,24 @@
+---
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>{{ site.title }}</title>
+    <description>{{ site.description }}</description>
+    <itunes:image href="{{ '/logo.jpg' | prepend: site.baseurl | prepend: site.url }}" />
+    <link>{{ '/' | prepend: site.baseurl | prepend: site.url }}</link>
+    <language>{{ site.lang }}</language>
+    <pubDate>{{ site.time }}</pubDate>
+    <author>wctang-data</author>
+{% for item in site.items %}
+{% assign type = site.type | default: 'mp3' %}
+{% assign fn = item.title | slice: 0, 2 | prepend: '/' | append: "." | append: type %}
+    <item>
+      <title>{{ item.title }}</title>
+      <pubDate>{{ site.time | date: '%s' | plus: forloop.index | date_to_rfc822 }}</pubDate>
+      <enclosure url="{{ fn | prepend: site.baseurl | prepend: site.url }}" type="audio/mpeg" length="{{ item.size }}" />
+      <itunes:duration>{{ item.duration }}</itunes:duration>
+    </item>
+{% endfor %}
+  </channel>
+</rss>
